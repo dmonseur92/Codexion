@@ -6,7 +6,7 @@
 /*   By: dmonseur <dmonseur@student.42belgium.be    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/24 17:34:06 by dmonseur          #+#    #+#             */
-/*   Updated: 2026/08/25 15:14:08 by dmonseur         ###   ########.fr       */
+/*   Updated: 2026/08/25 16:09:43 by dmonseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,10 @@ typedef struct s_params
 }	t_params;
 
 // helpers.c
-int	ft_atoi(const char *nptr);
-int	ft_isnbr(char *s);
+int		ft_atoi(const char *nptr);
+int		ft_isnbr(char *s);
+
+// parser.c
+void	parser(int argc, char **argv, t_params *params);
 
 #endif
