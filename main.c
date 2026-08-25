@@ -6,15 +6,15 @@
 /*   By: dmonseur <dmonseur@student.42belgium.be    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/24 17:30:24 by dmonseur          #+#    #+#             */
-/*   Updated: 2026/08/25 13:41:06 by dmonseur         ###   ########.fr       */
+/*   Updated: 2026/08/25 15:11:23 by dmonseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "codexion.h"
 
-int nbr_validator(char **arg)
+int	nbr_validator(char **arg)
 {
-	int i;
+	int	i;
 
 	i = 1;
 	while (i < 8)
@@ -26,9 +26,8 @@ int nbr_validator(char **arg)
 	return (1);
 }
 
-char *schedule_parser(char *s)
+char	*schedule_parser(char *s)
 {
-
 	if ((strcmp(s, "fifo") == 0))
 		return ("fifo");
 	else if ((strcmp(s, "edf") == 0))
@@ -37,10 +36,9 @@ char *schedule_parser(char *s)
 		return ("invalid");
 }
 
-
 void	parser(int argc, char **argv, t_params *params)
 {
-	char *schedule;
+	char	*schedule;
 
 	schedule = schedule_parser(argv[8]);
 	if (argc != 9)
@@ -58,21 +56,18 @@ void	parser(int argc, char **argv, t_params *params)
 		params->refactor_t = ft_atoi(argv[5]);
 		params->compiles_required = ft_atoi(argv[6]);
 		params->dongle_cd = ft_atoi(argv[7]);
+		if (strcmp(schedule, "fifo") == 0)
+			params->scheduler = 1;
+		else if (strcmp(schedule, "edf") == 0)
+			params->scheduler = 0;
 	}
 }
 
-int main(int argc, char **argv)
+int	main(int argc, char **argv)
 {
-	t_params params;
+	t_params	params;
 
 	memset(&params, 0, sizeof(t_params));
 	parser(argc, argv, &params);
-	printf("%d\n", params.nb_coders);
-	printf("%d\n", params.burnout_t);
-	printf("%d\n", params.compile_t);
-	printf("%d\n", params.debug_t);
-	printf("%d\n", params.refactor_t);
-	printf("%d\n", params.compiles_required);
-	printf("%d\n", params.dongle_cd);
 	return (0);
 }
