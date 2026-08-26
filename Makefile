@@ -8,6 +8,7 @@ SRC = \
 	helpers.c \
 	parser.c \
 	tester.c \
+	validator.c \
 
 OBJ = $(SRC:.c=.o)
 

@@ -6,7 +6,7 @@
 /*   By: dmonseur <dmonseur@student.42belgium.be    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/24 17:34:06 by dmonseur          #+#    #+#             */
-/*   Updated: 2026/08/26 17:24:01 by dmonseur         ###   ########.fr       */
+/*   Updated: 2026/08/26 19:37:06 by dmonseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,16 +29,19 @@ typedef struct s_params
 	int	scheduler;
 }	t_params;
 
-// tester.c
-void	tester(t_params *params);
-
 // helpers.c
 long	ft_atoi(const char *nptr);
 int		ft_isnbr(char *s);
-int		max_int_checker(char **argv);
+
 
 // parser.c
 void	parser(int argc, char **argv, t_params *params);
 void	assign_params(char **argv, t_params *params);
 
+// tester.c
+void	tester(t_params *params);
+
+// validator.c
+int		max_int_checker(char **argv);
+int		nbr_validator(char **arg);
 #endif

@@ -6,25 +6,12 @@
 /*   By: dmonseur <dmonseur@student.42belgium.be    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/25 16:06:14 by dmonseur          #+#    #+#             */
-/*   Updated: 2026/08/26 16:58:28 by dmonseur         ###   ########.fr       */
+/*   Updated: 2026/08/26 19:38:28 by dmonseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "codexion.h"
 
-static int	nbr_validator(char **arg)
-{
-	int	i;
-
-	i = 1;
-	while (i < 8)
-	{
-		if (!ft_isnbr(arg[i]))
-			return (0);
-		i++;
-	}
-	return (1);
-}
 
 static char	*schedule_parser(char *s)
 {
@@ -63,7 +50,7 @@ void	parser(int argc, char **argv, t_params *params)
 	if ((strcmp(schedule, "invalid") == 0))
 		fprintf(stderr, "Last argument must be 'fifo' or 'edf'\n");
 	if (!max_int_checker(argv))
-		fprintf(stderr, "Numbers can 't exceed int range\n");
+		fprintf(stderr, "Numbers can 't exceed int range (max: 2147483647)\n");
 	else
 	{
 		assign_params(argv, params);

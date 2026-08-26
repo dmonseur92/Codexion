@@ -1,52 +1,43 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   helpers.c                                          :+:      :+:    :+:   */
+/*   validator.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dmonseur <dmonseur@student.42belgium.be    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/08/24 17:39:26 by dmonseur          #+#    #+#             */
-/*   Updated: 2026/08/26 19:32:53 by dmonseur         ###   ########.fr       */
+/*   Created: 2026/08/26 19:32:58 by dmonseur          #+#    #+#             */
+/*   Updated: 2026/08/26 19:34:06 by dmonseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "codexion.h"
 
-long	ft_atoi(const char *nptr)
+int	max_int_checker(char **argv)
 {
-	long	res;
 	int		i;
+	long	n;
 
-	i = 0;
-	res = 0;
-	while (nptr[i] >= '0' && nptr[i] <= '9')
+	i = 1;
+	while (i < 8)
 	{
-		res = res * 10 + (nptr[i] - '0');
-		i++;
-	}
-	return (res);
-}
-
-static int	ft_isdigit(int c)
-{
-	if (c >= '0' && c <= '9')
-		return (1);
-	else
-		return (0);
-}
-
-int	ft_isnbr(char *s)
-{
-	int	i;
-
-	i = 0;
-	while (s[i])
-	{
-		if (!ft_isdigit(s[i]))
+		n = ft_atoi(argv[i]);
+		if (n > 2147483647)
 			return (0);
 		i++;
 	}
 	return (1);
 }
 
+int	nbr_validator(char **arg)
+{
+	int	i;
 
+	i = 1;
+	while (i < 8)
+	{
+		if (!ft_isnbr(arg[i]))
+			return (0);
+		i++;
+	}
+	return (1);
+}
