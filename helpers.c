@@ -6,13 +6,13 @@
 /*   By: dmonseur <dmonseur@student.42belgium.be    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/24 17:39:26 by dmonseur          #+#    #+#             */
-/*   Updated: 2026/08/26 16:29:09 by dmonseur         ###   ########.fr       */
+/*   Updated: 2026/08/26 17:24:45 by dmonseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "codexion.h"
 
-long	ft_atoi(const  char *nptr)
+long	ft_atoi(const char *nptr)
 {
 	long	res;
 	int		i;
@@ -51,8 +51,8 @@ int	ft_isnbr(char *s)
 
 int	max_int_checker(char **argv)
 {
-	int i;
-	long n;
+	int		i;
+	long	n;
 
 	i = 1;
 	while (i < 8)
@@ -64,6 +64,3 @@ int	max_int_checker(char **argv)
 	}
 	return (1);
 }
-
-
-
