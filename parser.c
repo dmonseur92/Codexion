@@ -6,7 +6,7 @@
 /*   By: dmonseur <dmonseur@student.42belgium.be    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/25 16:06:14 by dmonseur          #+#    #+#             */
-/*   Updated: 2026/08/25 16:09:04 by dmonseur         ###   ########.fr       */
+/*   Updated: 2026/08/26 16:58:28 by dmonseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static char	*schedule_parser(char *s)
 		return ("invalid");
 }
 
-static void	assign_params(char **argv, t_params *params)
+void	assign_params(char **argv, t_params *params)
 {
 	params->nb_coders = ft_atoi(argv[1]);
 	params->burnout_t = ft_atoi(argv[2]);
@@ -51,16 +51,19 @@ void	parser(int argc, char **argv, t_params *params)
 {
 	char	*schedule;
 
-	schedule = schedule_parser(argv[8]);
 	if (argc != 9)
 		fprintf(stderr, "Number of arguments must be exactly 8\n");
-	else if (!nbr_validator(argv))
+	else
+		schedule = schedule_parser(argv[8]);
+	if (!nbr_validator(argv))
 	{
 		fprintf(stderr, "All arguments must be numbers except last one\n");
 		fprintf(stderr, "and can't be negatives\n");
 	}
-	else if ((strcmp(schedule, "invalid") == 0))
+	if ((strcmp(schedule, "invalid") == 0))
 		fprintf(stderr, "Last argument must be 'fifo' or 'edf'\n");
+	if (!max_int_checker(argv))
+		fprintf(stderr, "Numbers can 't exceed int range\n");
 	else
 	{
 		assign_params(argv, params);
@@ -68,5 +71,6 @@ void	parser(int argc, char **argv, t_params *params)
 			params->scheduler = 1;
 		else if (strcmp(schedule, "edf") == 0)
 			params->scheduler = 0;
+		tester(params);
 	}
 }

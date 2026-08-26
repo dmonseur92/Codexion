@@ -6,35 +6,25 @@
 /*   By: dmonseur <dmonseur@student.42belgium.be    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/24 17:39:26 by dmonseur          #+#    #+#             */
-/*   Updated: 2026/08/25 15:14:19 by dmonseur         ###   ########.fr       */
+/*   Updated: 2026/08/26 16:29:09 by dmonseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "codexion.h"
 
-int	ft_atoi(const char *nptr)
+long	ft_atoi(const  char *nptr)
 {
 	long	res;
 	int		i;
-	int		neg;
 
 	i = 0;
-	neg = 1;
 	res = 0;
-	while (nptr[i] == ' ' || (nptr[i] >= 9 && nptr[i] <= 13))
-		i++;
-	if (nptr[i] == '-' || nptr[i] == '+')
-	{
-		if (nptr[i] == '-')
-			neg = -1;
-		i++;
-	}
 	while (nptr[i] >= '0' && nptr[i] <= '9')
 	{
 		res = res * 10 + (nptr[i] - '0');
 		i++;
 	}
-	return (res * neg);
+	return (res);
 }
 
 static int	ft_isdigit(int c)
@@ -58,3 +48,22 @@ int	ft_isnbr(char *s)
 	}
 	return (1);
 }
+
+int	max_int_checker(char **argv)
+{
+	int i;
+	long n;
+
+	i = 1;
+	while (i < 8)
+	{
+		n = ft_atoi(argv[i]);
+		if (n > 2147483647)
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
+
+
