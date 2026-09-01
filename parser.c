@@ -6,7 +6,7 @@
 /*   By: dmonseur <dmonseur@student.42belgium.be    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/25 16:06:14 by dmonseur          #+#    #+#             */
-/*   Updated: 2026/08/26 19:38:28 by dmonseur         ###   ########.fr       */
+/*   Updated: 2026/09/01 16:06:36 by dmonseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,38 +26,52 @@ static char	*schedule_parser(char *s)
 void	assign_params(char **argv, t_params *params)
 {
 	params->nb_coders = ft_atoi(argv[1]);
-	params->burnout_t = ft_atoi(argv[2]);
-	params->compile_t = ft_atoi(argv[3]);
-	params->debug_t = ft_atoi(argv[4]);
-	params->refactor_t = ft_atoi(argv[5]);
+	params->burnout_time = ft_atoi(argv[2]);
+	params->compile_time = ft_atoi(argv[3]);
+	params->debug_time = ft_atoi(argv[4]);
+	params->refactor_time = ft_atoi(argv[5]);
 	params->compiles_required = ft_atoi(argv[6]);
 	params->dongle_cd = ft_atoi(argv[7]);
+}
+
+int	args_validator(int argc, char **argv)
+{
+
+	if (argc != 9)
+	{
+		fprintf(stderr, "Number of arguments must be exactly 8\n");
+		return (0);
+	}
+	if (!nbr_validator(argv))
+	{
+		fprintf(stderr, "All arguments must be numbers except last one\n");
+		fprintf(stderr, "and can't be negatives\n");
+		return (0);
+	}
+	if (!max_int_checker(argv))
+	{
+		fprintf(stderr, "Numbers can 't exceed int range (max: 2147483647)\n");
+		return (0);
+	}
+	return (1);
 }
 
 void	parser(int argc, char **argv, t_params *params)
 {
 	char	*schedule;
-
-	if (argc != 9)
-		fprintf(stderr, "Number of arguments must be exactly 8\n");
-	else
+	if (args_validator(argc, argv))
+	{
 		schedule = schedule_parser(argv[8]);
-	if (!nbr_validator(argv))
-	{
-		fprintf(stderr, "All arguments must be numbers except last one\n");
-		fprintf(stderr, "and can't be negatives\n");
-	}
-	if ((strcmp(schedule, "invalid") == 0))
-		fprintf(stderr, "Last argument must be 'fifo' or 'edf'\n");
-	if (!max_int_checker(argv))
-		fprintf(stderr, "Numbers can 't exceed int range (max: 2147483647)\n");
-	else
-	{
-		assign_params(argv, params);
-		if (strcmp(schedule, "fifo") == 0)
-			params->scheduler = 1;
-		else if (strcmp(schedule, "edf") == 0)
-			params->scheduler = 0;
-		tester(params);
+		if ((strcmp(schedule, "invalid") == 0))
+			fprintf(stderr, "Last argument must be 'fifo' or 'edf'\n");
+		else
+		{
+			assign_params(argv, params);
+			if (strcmp(schedule, "fifo") == 0)
+				params->scheduler = 1;
+			else if (strcmp(schedule, "edf") == 0)
+				params->scheduler = 0;
+			tester(params);
+		}
 	}
 }
