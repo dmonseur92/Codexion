@@ -6,6 +6,7 @@ CFLAGS = -Wall -Wextra -Werror -pthread -g
 SRC = \
 	main.c \
 	helpers.c \
+	init.c \
 	parser.c \
 	tester.c \
 	validator.c \

@@ -6,7 +6,7 @@
 /*   By: dmonseur <dmonseur@student.42belgium.be    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/25 16:06:14 by dmonseur          #+#    #+#             */
-/*   Updated: 2026/09/01 16:06:36 by dmonseur         ###   ########.fr       */
+/*   Updated: 2026/09/01 17:17:09 by dmonseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static char	*schedule_parser(char *s)
 		return ("invalid");
 }
 
-void	assign_params(char **argv, t_params *params)
+static void	assign_params(char **argv, t_params *params)
 {
 	params->nb_coders = ft_atoi(argv[1]);
 	params->burnout_time = ft_atoi(argv[2]);
@@ -34,7 +34,7 @@ void	assign_params(char **argv, t_params *params)
 	params->dongle_cd = ft_atoi(argv[7]);
 }
 
-int	args_validator(int argc, char **argv)
+static int	args_validator(int argc, char **argv)
 {
 
 	if (argc != 9)
@@ -56,14 +56,17 @@ int	args_validator(int argc, char **argv)
 	return (1);
 }
 
-void	parser(int argc, char **argv, t_params *params)
+int	parser(int argc, char **argv, t_params *params)
 {
 	char	*schedule;
 	if (args_validator(argc, argv))
 	{
 		schedule = schedule_parser(argv[8]);
 		if ((strcmp(schedule, "invalid") == 0))
+		{
 			fprintf(stderr, "Last argument must be 'fifo' or 'edf'\n");
+			return (0);
+		}
 		else
 		{
 			assign_params(argv, params);
@@ -73,5 +76,8 @@ void	parser(int argc, char **argv, t_params *params)
 				params->scheduler = 0;
 			tester(params);
 		}
+		return (1);
 	}
+	else
+		return (0);
 }

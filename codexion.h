@@ -6,7 +6,7 @@
 /*   By: dmonseur <dmonseur@student.42belgium.be    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/24 17:34:06 by dmonseur          #+#    #+#             */
-/*   Updated: 2026/09/01 13:26:07 by dmonseur         ###   ########.fr       */
+/*   Updated: 2026/09/01 18:19:36 by dmonseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,36 +33,39 @@ typedef struct s_params
 	int	scheduler;
 }	t_params;
 
-typedef struct t_dongle
+typedef struct s_dongle
 {
 	int dongle_id;
 	int cooldown;
 	pthread_mutex_t dongle_mutex;
-}	s_dongle;
+}	t_dongle;
 
-typedef struct t_coder
+typedef struct s_coder
 {
 	int	coder_id;
 	int burnout_time;
-	s_dongle	*left_dongle;
-	s_dongle	*right_dongle;
+	t_dongle	*left_dongle;
+	t_dongle	*right_dongle;
 
-}	s_coder;
+}	t_coder;
 
-typedef struct t_table
+typedef struct s_table
 {
-	s_coder 	**coders;
-	s_dongle	**dongles;
+	t_coder 	**coders;
+	t_dongle	**dongles;
 
-}	s_table;
+}	t_table;
 
 // helpers.c
 long	ft_atoi(const char *nptr);
 int		ft_isnbr(char *s);
 
+// init.c
+int	init_dongles(t_params *params, t_table *table);
+int	init_coders(t_params *params, t_table *table);
+
 // parser.c
-void	parser(int argc, char **argv, t_params *params);
-void	assign_params(char **argv, t_params *params);
+int		parser(int argc, char **argv, t_params *params);
 
 // tester.c
 void	tester(t_params *params);

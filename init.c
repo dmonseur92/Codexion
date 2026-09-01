@@ -1,0 +1,61 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dmonseur <dmonseur@student.42belgium.be    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/09/01 16:20:22 by dmonseur          #+#    #+#             */
+/*   Updated: 2026/09/01 18:18:09 by dmonseur         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "codexion.h"
+
+int	init_dongles(t_params *params, t_table *table)
+{
+	int i;
+
+	table->dongles = malloc(sizeof(t_dongle *) * params->nb_coders);
+	if (!table->dongles)
+		return (0);
+	i = 0;
+	while (i < params->nb_coders)
+	{
+		table->dongles[i] = malloc(sizeof(t_dongle));
+		if (!table->dongles[i])
+			return (0);
+		table->dongles[i]->dongle_id = i + 1;
+		table->dongles[i]->cooldown = params->dongle_cd;
+		pthread_mutex_init(&table->dongles[i]->dongle_mutex, NULL);
+		i++;
+	}
+	return (1);
+}
+
+int	init_coders(t_params *params, t_table *table)
+{
+	int i;
+
+
+	table->coders = malloc(sizeof(t_coder *) * params->nb_coders);
+	if (!table->coders)
+		return (0);
+	i = 0;
+	while (i < params->nb_coders)
+	{
+		table->coders[i] = malloc(sizeof(t_coder));
+		if (!table->coders[i])
+			return (0);
+		table->coders[i]->coder_id = i + 1;
+		table->coders[i]->burnout_time = params->burnout_time;
+		if (i == 0)
+			table->coders[i]->left_dongle = table->dongles[params->nb_coders - 1];
+		else
+			table->coders[i]->left_dongle = table->dongles[i - 1];
+		table->coders[i]->right_dongle = table->dongles[i];
+		i++;
+	}
+	return (1);
+}
+
