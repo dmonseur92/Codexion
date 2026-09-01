@@ -6,7 +6,7 @@
 /*   By: dmonseur <dmonseur@student.42belgium.be    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/01 16:20:22 by dmonseur          #+#    #+#             */
-/*   Updated: 2026/09/01 18:18:09 by dmonseur         ###   ########.fr       */
+/*   Updated: 2026/09/01 18:29:02 by dmonseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	init_dongles(t_params *params, t_table *table)
 {
-	int i;
+	int	i;
 
 	table->dongles = malloc(sizeof(t_dongle *) * params->nb_coders);
 	if (!table->dongles)
@@ -35,8 +35,7 @@ int	init_dongles(t_params *params, t_table *table)
 
 int	init_coders(t_params *params, t_table *table)
 {
-	int i;
-
+	int	i;
 
 	table->coders = malloc(sizeof(t_coder *) * params->nb_coders);
 	if (!table->coders)
@@ -50,7 +49,10 @@ int	init_coders(t_params *params, t_table *table)
 		table->coders[i]->coder_id = i + 1;
 		table->coders[i]->burnout_time = params->burnout_time;
 		if (i == 0)
-			table->coders[i]->left_dongle = table->dongles[params->nb_coders - 1];
+		{
+			table->coders[i]->left_dongle
+				= table->dongles[params->nb_coders - 1];
+		}
 		else
 			table->coders[i]->left_dongle = table->dongles[i - 1];
 		table->coders[i]->right_dongle = table->dongles[i];
@@ -58,4 +60,3 @@ int	init_coders(t_params *params, t_table *table)
 	}
 	return (1);
 }
-

@@ -6,7 +6,7 @@
 /*   By: dmonseur <dmonseur@student.42belgium.be    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/24 17:34:06 by dmonseur          #+#    #+#             */
-/*   Updated: 2026/09/01 18:19:36 by dmonseur         ###   ########.fr       */
+/*   Updated: 2026/09/01 18:24:46 by dmonseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,23 +35,22 @@ typedef struct s_params
 
 typedef struct s_dongle
 {
-	int dongle_id;
-	int cooldown;
-	pthread_mutex_t dongle_mutex;
+	int				dongle_id;
+	int				cooldown;
+	pthread_mutex_t	dongle_mutex;
 }	t_dongle;
 
 typedef struct s_coder
 {
-	int	coder_id;
-	int burnout_time;
+	int			coder_id;
+	int			burnout_time;
 	t_dongle	*left_dongle;
 	t_dongle	*right_dongle;
-
 }	t_coder;
 
 typedef struct s_table
 {
-	t_coder 	**coders;
+	t_coder		**coders;
 	t_dongle	**dongles;
 
 }	t_table;
@@ -61,8 +60,8 @@ long	ft_atoi(const char *nptr);
 int		ft_isnbr(char *s);
 
 // init.c
-int	init_dongles(t_params *params, t_table *table);
-int	init_coders(t_params *params, t_table *table);
+int		init_dongles(t_params *params, t_table *table);
+int		init_coders(t_params *params, t_table *table);
 
 // parser.c
 int		parser(int argc, char **argv, t_params *params);

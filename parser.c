@@ -6,12 +6,11 @@
 /*   By: dmonseur <dmonseur@student.42belgium.be    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/25 16:06:14 by dmonseur          #+#    #+#             */
-/*   Updated: 2026/09/01 17:17:09 by dmonseur         ###   ########.fr       */
+/*   Updated: 2026/09/01 18:26:03 by dmonseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "codexion.h"
-
 
 static char	*schedule_parser(char *s)
 {
@@ -36,7 +35,6 @@ static void	assign_params(char **argv, t_params *params)
 
 static int	args_validator(int argc, char **argv)
 {
-
 	if (argc != 9)
 	{
 		fprintf(stderr, "Number of arguments must be exactly 8\n");
@@ -59,6 +57,7 @@ static int	args_validator(int argc, char **argv)
 int	parser(int argc, char **argv, t_params *params)
 {
 	char	*schedule;
+
 	if (args_validator(argc, argv))
 	{
 		schedule = schedule_parser(argv[8]);
