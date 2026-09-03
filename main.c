@@ -6,7 +6,7 @@
 /*   By: dmonseur <dmonseur@student.42belgium.be    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/24 17:30:24 by dmonseur          #+#    #+#             */
-/*   Updated: 2026/09/01 18:23:17 by dmonseur         ###   ########.fr       */
+/*   Updated: 2026/09/03 17:18:10 by dmonseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,8 @@ int	main(int argc, char **argv)
 	{
 		init_dongles(&params, &table);
 		init_coders(&params, &table);
-		print_table(&params, &table);
+		// print_table(&params, &table);
+		create_theards(&table);
 	}
 	return (0);
 }

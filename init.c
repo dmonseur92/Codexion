@@ -6,7 +6,7 @@
 /*   By: dmonseur <dmonseur@student.42belgium.be    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/01 16:20:22 by dmonseur          #+#    #+#             */
-/*   Updated: 2026/09/01 18:29:02 by dmonseur         ###   ########.fr       */
+/*   Updated: 2026/09/03 18:12:56 by dmonseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,9 @@ int	init_dongles(t_params *params, t_table *table)
 {
 	int	i;
 
+	table->start_time = get_time();
+	pthread_mutex_init(&table->print_mutex, NULL);
+	table->params = params;
 	table->dongles = malloc(sizeof(t_dongle *) * params->nb_coders);
 	if (!table->dongles)
 		return (0);
@@ -27,6 +30,7 @@ int	init_dongles(t_params *params, t_table *table)
 			return (0);
 		table->dongles[i]->dongle_id = i + 1;
 		table->dongles[i]->cooldown = params->dongle_cd;
+		table->dongles[i]->available = 1;
 		pthread_mutex_init(&table->dongles[i]->dongle_mutex, NULL);
 		i++;
 	}
@@ -48,6 +52,7 @@ int	init_coders(t_params *params, t_table *table)
 			return (0);
 		table->coders[i]->coder_id = i + 1;
 		table->coders[i]->burnout_time = params->burnout_time;
+		table->coders[i]->table = table;
 		if (i == 0)
 		{
 			table->coders[i]->left_dongle
@@ -60,3 +65,4 @@ int	init_coders(t_params *params, t_table *table)
 	}
 	return (1);
 }
+

@@ -4,12 +4,13 @@ CC = cc
 CFLAGS = -Wall -Wextra -Werror -pthread -g
 
 SRC = \
-	main.c \
-	helpers.c \
 	init.c \
+	main.c \
 	parser.c \
 	tester.c \
+	threads.c \
 	validator.c \
+	utils.c \
 
 OBJ = $(SRC:.c=.o)
 

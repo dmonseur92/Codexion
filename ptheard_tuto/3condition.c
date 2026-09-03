@@ -28,7 +28,6 @@ void *catch_pokemon(void *arg)
     while (!game->has_pokemon_spawned)
         pthread_cond_wait(&game->pokemon_ready, &game->mutex);
         // Attend et libère temporairement le mutex, puis le reprend au réveil.
-
     if (game->pokemon_available)
     {
         printf("Le pokemon est capture par %s\n", trainer->name);
@@ -36,7 +35,6 @@ void *catch_pokemon(void *arg)
     }
     else
         printf("Le pokemon est deja pris, %s a le seum\n", trainer->name);
-
     pthread_mutex_unlock(&game->mutex);
     return NULL;
 }
