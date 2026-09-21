@@ -6,7 +6,7 @@
 /*   By: dmonseur <dmonseur@student.42belgium.be    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/24 17:34:06 by dmonseur          #+#    #+#             */
-/*   Updated: 2026/09/03 18:12:14 by dmonseur         ###   ########.fr       */
+/*   Updated: 2026/09/20 16:53:17 by dmonseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ typedef struct s_table
 	t_dongle	**dongles;
 	long		start_time;
 	pthread_mutex_t	print_mutex;
+	pthread_mutex_t	dongles_mutex;
 }	t_table;
 
 // init.c
