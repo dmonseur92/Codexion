@@ -6,7 +6,7 @@
 /*   By: dmonseur <dmonseur@student.42belgium.be    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/24 17:34:06 by dmonseur          #+#    #+#             */
-/*   Updated: 2026/09/22 17:37:35 by dmonseur         ###   ########.fr       */
+/*   Updated: 2026/09/22 19:13:58 by dmonseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ typedef struct s_dongle
 typedef struct s_coder
 {
 	int			coder_id;
-	int			burnout_time;
+	long		last_compile;
 	t_dongle	*left_dongle;
 	t_dongle	*right_dongle;
 	t_table		*table;
@@ -79,9 +79,6 @@ void 	debug(t_coder *coder);
 void 	refactor(t_coder *coder);
 // parser.c
 int		parser(int argc, char **argv, t_params *params);
-
-// tester.c
-void	tester(t_params *params);
 
 // threads.c
 void	create_theards(t_table *table);

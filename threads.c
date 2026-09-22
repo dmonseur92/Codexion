@@ -6,7 +6,7 @@
 /*   By: dmonseur <dmonseur@student.42belgium.be    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/03 15:51:56 by dmonseur          #+#    #+#             */
-/*   Updated: 2026/09/22 17:38:44 by dmonseur         ###   ########.fr       */
+/*   Updated: 2026/09/22 19:45:22 by dmonseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,16 +16,14 @@ static int	dongle_ready(t_dongle *d)
 	return (d->available && get_time() >= d->ready_at);
 }
 
-static void	wait_next_check(pthread_cond_t *cond, pthread_mutex_t *mutex)
+static void	wait_until(pthread_cond_t *cond, pthread_mutex_t *mutex)
 {
-	struct timeval	tv;
 	struct timespec	ts;
-	long			ns;
+	long			time;
 
-	gettimeofday(&tv, NULL);
-	ns = (tv.tv_usec * 1000) + 2000000L;
-	ts.tv_sec = tv.tv_sec + (ns / 1000000000L);
-	ts.tv_nsec = ns % 1000000000L;
+	time = get_time();
+	ts.tv_sec = time / 1000;
+	ts.tv_nsec = (time % 1000) * 1000000;
 	pthread_cond_timedwait(cond, mutex, &ts);
 }
 
@@ -37,7 +35,7 @@ static void	*take_dongles(void *arg)
 	coder = (t_coder *)arg;
 	pthread_mutex_lock(&coder->table->dongles_mutex);
 	while (!dongle_ready(coder->left_dongle) || !dongle_ready(coder->right_dongle))
-		wait_next_check(&coder->table->dongles_ready, &coder->table->dongles_mutex);
+		wait_until(&coder->table->dongles_ready, &coder->table->dongles_mutex);
 	coder->left_dongle->available = 0;
 	coder->right_dongle->available = 0;
 	pthread_mutex_unlock(&coder->table->dongles_mutex);
@@ -63,16 +61,22 @@ static void	*take_dongles(void *arg)
 	return (NULL);
 }
 
+static void		check_burnout(void *arg)
+{
+	
+}
 
 void	create_theards(t_table *table)
 {
 	pthread_t	*threads;
+	pthread_t	*monitor;
 	int i;
 
 
 	threads = malloc(sizeof(pthread_t) * table->params->nb_coders);
 	while (table->params->compiles_required > 0)
 	{
+		pthread_create(&monitor, NULL, check_burnout, table->params->burnout_time);
 		i = 0;
 		while (i < table->params->nb_coders)
 		{

@@ -6,7 +6,7 @@
 /*   By: dmonseur <dmonseur@student.42belgium.be    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/25 16:06:14 by dmonseur          #+#    #+#             */
-/*   Updated: 2026/09/01 18:26:03 by dmonseur         ###   ########.fr       */
+/*   Updated: 2026/09/22 19:14:36 by dmonseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,6 @@ int	parser(int argc, char **argv, t_params *params)
 				params->scheduler = 1;
 			else if (strcmp(schedule, "edf") == 0)
 				params->scheduler = 0;
-			tester(params);
 		}
 		return (1);
 	}

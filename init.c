@@ -6,7 +6,7 @@
 /*   By: dmonseur <dmonseur@student.42belgium.be    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/01 16:20:22 by dmonseur          #+#    #+#             */
-/*   Updated: 2026/09/22 17:31:22 by dmonseur         ###   ########.fr       */
+/*   Updated: 2026/09/22 19:11:09 by dmonseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,13 +54,10 @@ int	init_coders(t_params *params, t_table *table)
 		if (!table->coders[i])
 			return (0);
 		table->coders[i]->coder_id = i + 1;
-		table->coders[i]->burnout_time = params->burnout_time;
+		table->coders[i]->last_compile = 0;
 		table->coders[i]->table = table;
 		if (i == 0)
-		{
-			table->coders[i]->left_dongle
-				= table->dongles[params->nb_coders - 1];
-		}
+			table->coders[i]->left_dongle = table->dongles[params->nb_coders - 1];
 		else
 			table->coders[i]->left_dongle = table->dongles[i - 1];
 		table->coders[i]->right_dongle = table->dongles[i];
