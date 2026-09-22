@@ -6,7 +6,7 @@
 /*   By: dmonseur <dmonseur@student.42belgium.be    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/01 16:20:22 by dmonseur          #+#    #+#             */
-/*   Updated: 2026/09/21 14:01:22 by dmonseur         ###   ########.fr       */
+/*   Updated: 2026/09/22 15:49:36 by dmonseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ int	init_dongles(t_params *params, t_table *table)
 	int	i;
 
 	table->start_time = get_time();
+	pthread_cond_init(&table->dongles_ready, NULL);
 	pthread_mutex_init(&table->dongles_mutex, NULL);
 	pthread_mutex_init(&table->print_mutex, NULL);
 	table->params = params;

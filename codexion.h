@@ -6,7 +6,7 @@
 /*   By: dmonseur <dmonseur@student.42belgium.be    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/24 17:34:06 by dmonseur          #+#    #+#             */
-/*   Updated: 2026/09/20 16:53:17 by dmonseur         ###   ########.fr       */
+/*   Updated: 2026/09/22 15:07:31 by dmonseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,12 +60,17 @@ typedef struct s_table
 	long		start_time;
 	pthread_mutex_t	print_mutex;
 	pthread_mutex_t	dongles_mutex;
+	pthread_cond_t	dongles_ready;
 }	t_table;
 
 // init.c
 int		init_dongles(t_params *params, t_table *table);
 int		init_coders(t_params *params, t_table *table);
 
+// operations.c
+void	compile(t_coder *coder);
+void 	debug(t_coder *coder);
+void 	refactor(t_coder *coder);
 // parser.c
 int		parser(int argc, char **argv, t_params *params);
 
