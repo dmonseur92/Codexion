@@ -6,12 +6,17 @@
 /*   By: dmonseur <dmonseur@student.42belgium.be    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/24 17:34:06 by dmonseur          #+#    #+#             */
-/*   Updated: 2026/09/22 15:07:31 by dmonseur         ###   ########.fr       */
+/*   Updated: 2026/09/22 17:37:35 by dmonseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CODEXION_H
 # define CODEXION_H
+#define RED     "\033[31m"
+#define GREEN   "\033[32m"
+#define YELLOW  "\033[33m"
+#define BLUE    "\033[34m"
+#define RESET   "\033[0m"
 
 # include <stdio.h>
 # include <stdlib.h>
@@ -40,6 +45,7 @@ typedef struct s_dongle
 	int				dongle_id;
 	int				cooldown;
 	int				available;
+	long			ready_at;
 	pthread_mutex_t	dongle_mutex;
 }	t_dongle;
 
@@ -78,7 +84,6 @@ int		parser(int argc, char **argv, t_params *params);
 void	tester(t_params *params);
 
 // threads.c
-
 void	create_theards(t_table *table);
 
 // utils.c
