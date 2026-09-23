@@ -6,7 +6,7 @@
 /*   By: dmonseur <dmonseur@student.42belgium.be    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/01 16:20:22 by dmonseur          #+#    #+#             */
-/*   Updated: 2026/09/22 19:11:09 by dmonseur         ###   ########.fr       */
+/*   Updated: 2026/09/23 19:18:30 by dmonseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ int	init_dongles(t_params *params, t_table *table)
 	pthread_mutex_init(&table->dongles_mutex, NULL);
 	pthread_mutex_init(&table->print_mutex, NULL);
 	table->params = params;
+	table->stop = 0;
 	table->dongles = malloc(sizeof(t_dongle *) * params->nb_coders);
 	if (!table->dongles)
 		return (0);
@@ -54,7 +55,7 @@ int	init_coders(t_params *params, t_table *table)
 		if (!table->coders[i])
 			return (0);
 		table->coders[i]->coder_id = i + 1;
-		table->coders[i]->last_compile = 0;
+		table->coders[i]->last_compile = table->start_time;
 		table->coders[i]->table = table;
 		if (i == 0)
 			table->coders[i]->left_dongle = table->dongles[params->nb_coders - 1];
