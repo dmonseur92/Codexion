@@ -6,7 +6,7 @@
 /*   By: dmonseur <dmonseur@student.42belgium.be    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/24 17:34:06 by dmonseur          #+#    #+#             */
-/*   Updated: 2026/09/23 19:15:39 by dmonseur         ###   ########.fr       */
+/*   Updated: 2026/09/24 15:35:41 by dmonseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ typedef struct s_coder
 {
 	int			coder_id;
 	long		last_compile;
+	int			compiles_required;
 	t_dongle	*left_dongle;
 	t_dongle	*right_dongle;
 	t_table		*table;
