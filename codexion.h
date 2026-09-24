@@ -6,7 +6,7 @@
 /*   By: dmonseur <dmonseur@student.42belgium.be    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/24 17:34:06 by dmonseur          #+#    #+#             */
-/*   Updated: 2026/09/24 17:42:04 by dmonseur         ###   ########.fr       */
+/*   Updated: 2026/09/24 18:17:47 by dmonseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 #define YELLOW  "\033[33m"
 #define BLUE    "\033[34m"
 #define RESET   "\033[0m"
+#define FIFO 1
+#define EDF 0
 
 # include <stdio.h>
 # include <stdlib.h>
@@ -40,12 +42,21 @@ typedef struct s_params
 	int	scheduler;
 }	t_params;
 
+typedef struct s_request
+{
+	int		coder_id;
+	long	ticket;
+	long	deadline;
+}	t_request;
+
 typedef struct s_dongle
 {
 	int				dongle_id;
 	int				cooldown;
 	int				available;
 	long			ready_at;
+	t_request		queue[2];
+	int				queue_size;
 	pthread_mutex_t	dongle_mutex;
 }	t_dongle;
 
@@ -66,6 +77,7 @@ typedef struct s_table
 	t_dongle	**dongles;
 	long		start_time;
 	int			stop;
+	long		ticket;
 	pthread_mutex_t	print_mutex;
 	pthread_mutex_t	dongles_mutex;
 	pthread_cond_t	dongles_ready;
@@ -83,6 +95,11 @@ void	*lone_coder(t_coder *coder);
 // parser.c
 int		parser(int argc, char **argv, t_params *params);
 
+// queue.c
+void	queue_push(t_dongle *dongle, t_coder *coder, long ticket);
+void	queue_remove(t_dongle *dongle, int coder_id);
+int		queue_my_turn(t_coder *coder);
+
 // threads.c
 void	create_theards(t_table *table);
 
@@ -90,6 +107,7 @@ void	create_theards(t_table *table);
 long	ft_atoi(const char *nptr);
 int		ft_isnbr(char *s);
 long	get_time();
+int		dongle_ready(t_dongle *dongle);
 
 // validator.c
 int		max_int_checker(char **argv);

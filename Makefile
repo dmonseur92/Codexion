@@ -8,6 +8,7 @@ SRC = \
 	main.c \
 	operations.c \
 	parser.c \
+	queue.c \
 	threads.c \
 	validator.c \
 	utils.c \

@@ -6,7 +6,7 @@
 /*   By: dmonseur <dmonseur@student.42belgium.be    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/01 16:20:22 by dmonseur          #+#    #+#             */
-/*   Updated: 2026/09/24 15:36:19 by dmonseur         ###   ########.fr       */
+/*   Updated: 2026/09/24 18:21:28 by dmonseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ int	init_dongles(t_params *params, t_table *table)
 	pthread_mutex_init(&table->print_mutex, NULL);
 	table->params = params;
 	table->stop = 0;
+	table->ticket = 0;
 	table->dongles = malloc(sizeof(t_dongle *) * params->nb_coders);
 	if (!table->dongles)
 		return (0);
@@ -35,6 +36,7 @@ int	init_dongles(t_params *params, t_table *table)
 		table->dongles[i]->cooldown = params->dongle_cd;
 		table->dongles[i]->available = 1;
 		table->dongles[i]->ready_at = 0;
+		table->dongles[i]->queue_size = 0;
 		pthread_mutex_init(&table->dongles[i]->dongle_mutex, NULL);
 		i++;
 	}

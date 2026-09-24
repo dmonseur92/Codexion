@@ -6,15 +6,11 @@
 /*   By: dmonseur <dmonseur@student.42belgium.be    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/03 15:51:56 by dmonseur          #+#    #+#             */
-/*   Updated: 2026/09/24 17:51:10 by dmonseur         ###   ########.fr       */
+/*   Updated: 2026/09/24 18:20:10 by dmonseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "codexion.h"
-static int	dongle_ready(t_dongle *dongle)
-{
-	return (dongle->available && get_time() >= dongle->ready_at);
-}
 
 static void	wait_until(pthread_cond_t *cond, pthread_mutex_t *mutex)
 {
@@ -38,10 +34,13 @@ static void	*take_dongles(void *arg)
 	while (coder->compiles_required > 0)
 	{
 		pthread_mutex_lock(&coder->table->dongles_mutex);
+		queue_push(coder->left_dongle, coder, coder->table->ticket);
+		queue_push(coder->right_dongle, coder, coder->table->ticket++);
 		while (!coder->table->stop && (!dongle_ready(coder->left_dongle)
-		|| !dongle_ready(coder->right_dongle)))
+		|| !dongle_ready(coder->right_dongle) || !queue_my_turn(coder)))
 		wait_until(&coder->table->dongles_ready, &coder->table->dongles_mutex);
-
+		queue_remove(coder->left_dongle, coder->coder_id);
+		queue_remove(coder->right_dongle, coder->coder_id);
 		if (coder->table->stop)
 		{
 			pthread_mutex_unlock(&coder->table->dongles_mutex);
