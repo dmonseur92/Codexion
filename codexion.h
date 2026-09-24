@@ -6,7 +6,7 @@
 /*   By: dmonseur <dmonseur@student.42belgium.be    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/24 17:34:06 by dmonseur          #+#    #+#             */
-/*   Updated: 2026/09/24 15:35:41 by dmonseur         ###   ########.fr       */
+/*   Updated: 2026/09/24 17:42:04 by dmonseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ int		init_coders(t_params *params, t_table *table);
 void	compile(t_coder *coder);
 void 	debug(t_coder *coder);
 void 	refactor(t_coder *coder);
+void	*lone_coder(t_coder *coder);
 // parser.c
 int		parser(int argc, char **argv, t_params *params);
 

@@ -6,7 +6,7 @@
 /*   By: dmonseur <dmonseur@student.42belgium.be    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/21 14:49:28 by dmonseur          #+#    #+#             */
-/*   Updated: 2026/09/24 15:55:41 by dmonseur         ###   ########.fr       */
+/*   Updated: 2026/09/24 17:51:37 by dmonseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,4 +50,16 @@ void refactor(t_coder *coder)
 	printf(BLUE "%ld %d is refactoring\n" RESET, time, coder->coder_id);
 	pthread_mutex_unlock(&coder->table->print_mutex);
 	usleep(coder->table->params->refactor_time * 1000);
+}
+
+void	*lone_coder(t_coder *coder)
+{
+	long	time;
+
+	pthread_mutex_lock(&coder->table->print_mutex);
+	time = get_time() - coder->table->start_time;
+	printf("%ld %d has taken a dongle (%d)\n", time,
+		coder->coder_id, coder->left_dongle->dongle_id);
+	pthread_mutex_unlock(&coder->table->print_mutex);
+	return (NULL);
 }

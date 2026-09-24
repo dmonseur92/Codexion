@@ -6,7 +6,7 @@
 /*   By: dmonseur <dmonseur@student.42belgium.be    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/03 15:51:56 by dmonseur          #+#    #+#             */
-/*   Updated: 2026/09/24 16:07:59 by dmonseur         ###   ########.fr       */
+/*   Updated: 2026/09/24 17:51:10 by dmonseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ static void	*take_dongles(void *arg)
 	long	time;
 
 	coder = (t_coder *)arg;
+	if (coder->left_dongle == coder->right_dongle)
+		return (lone_coder(coder));
 	while (coder->compiles_required > 0)
 	{
 		pthread_mutex_lock(&coder->table->dongles_mutex);
