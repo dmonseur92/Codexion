@@ -6,7 +6,7 @@
 /*   By: dmonseur <dmonseur@student.42belgium.be    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/24 17:34:06 by dmonseur          #+#    #+#             */
-/*   Updated: 2026/09/27 17:00:34 by dmonseur         ###   ########.fr       */
+/*   Updated: 2026/09/27 18:15:40 by dmonseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ typedef struct s_coder
 	int			coder_id;
 	long		last_compile;
 	int			compiles_required;
+	int			has_finished;
 	t_dongle	*left_dongle;
 	t_dongle	*right_dongle;
 	t_table		*table;
@@ -112,4 +113,5 @@ int		dongle_ready(t_dongle *dongle);
 // validator.c
 int		max_int_checker(char **argv);
 int		nbr_validator(char **arg);
+void	stop_program(t_coder *coder);
 #endif

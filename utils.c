@@ -6,7 +6,7 @@
 /*   By: dmonseur <dmonseur@student.42belgium.be    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/24 17:39:26 by dmonseur          #+#    #+#             */
-/*   Updated: 2026/09/27 15:59:02 by dmonseur         ###   ########.fr       */
+/*   Updated: 2026/09/27 18:25:42 by dmonseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ int	ft_isnbr(char *s)
 {
 	int	i;
 
+	if (!s || s[0] == '\0')
+		return (0);
 	i = 0;
 	while (s[i])
 	{

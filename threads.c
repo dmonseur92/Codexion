@@ -6,7 +6,7 @@
 /*   By: dmonseur <dmonseur@student.42belgium.be    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/03 15:51:56 by dmonseur          #+#    #+#             */
-/*   Updated: 2026/09/27 16:54:30 by dmonseur         ###   ########.fr       */
+/*   Updated: 2026/09/27 18:16:47 by dmonseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,8 @@ static void	*operations(void *arg)
 		debug(coder);
 		refactor(coder);
 	}
-	coder->table->stop = 1;
+	coder->has_finished = 1;
+	stop_program(coder);
 	return (NULL);
 }
 

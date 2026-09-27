@@ -6,7 +6,7 @@
 /*   By: dmonseur <dmonseur@student.42belgium.be    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/26 19:32:58 by dmonseur          #+#    #+#             */
-/*   Updated: 2026/08/26 19:34:06 by dmonseur         ###   ########.fr       */
+/*   Updated: 2026/09/27 18:22:13 by dmonseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,4 +40,17 @@ int	nbr_validator(char **arg)
 		i++;
 	}
 	return (1);
+}
+
+void	stop_program(t_coder *coder)
+{
+	int		i;
+
+	while (i < coder->table->params->nb_coders)
+	{
+		if (!coder->table->coders[i]->has_finished)
+			return ;
+		i++;
+	}
+	coder->table->stop = 1;
 }
