@@ -6,19 +6,19 @@
 /*   By: dmonseur <dmonseur@student.42belgium.be    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/24 17:34:06 by dmonseur          #+#    #+#             */
-/*   Updated: 2026/09/24 18:17:47 by dmonseur         ###   ########.fr       */
+/*   Updated: 2026/09/27 15:52:27 by dmonseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CODEXION_H
 # define CODEXION_H
-#define RED     "\033[31m"
-#define GREEN   "\033[32m"
-#define YELLOW  "\033[33m"
-#define BLUE    "\033[34m"
-#define RESET   "\033[0m"
-#define FIFO 1
-#define EDF 0
+# define RED     "\033[31m"
+# define GREEN   "\033[32m"
+# define YELLOW  "\033[33m"
+# define BLUE    "\033[34m"
+# define RESET   "\033[0m"
+# define FIFO 1
+# define EDF 0
 
 # include <stdio.h>
 # include <stdlib.h>
@@ -28,7 +28,7 @@
 # include <unistd.h>
 # include <sys/time.h>
 
-typedef struct s_table t_table;
+typedef struct s_table	t_table;
 
 typedef struct s_params
 {
@@ -72,12 +72,12 @@ typedef struct s_coder
 
 typedef struct s_table
 {
-	t_params	*params;
-	t_coder		**coders;
-	t_dongle	**dongles;
-	long		start_time;
-	int			stop;
-	long		ticket;
+	t_params		*params;
+	t_coder			**coders;
+	t_dongle		**dongles;
+	long			start_time;
+	int				stop;
+	long			ticket;
 	pthread_mutex_t	print_mutex;
 	pthread_mutex_t	dongles_mutex;
 	pthread_cond_t	dongles_ready;
@@ -89,8 +89,8 @@ int		init_coders(t_params *params, t_table *table);
 
 // operations.c
 void	compile(t_coder *coder);
-void 	debug(t_coder *coder);
-void 	refactor(t_coder *coder);
+void	debug(t_coder *coder);
+void	refactor(t_coder *coder);
 void	*lone_coder(t_coder *coder);
 // parser.c
 int		parser(int argc, char **argv, t_params *params);
@@ -106,7 +106,7 @@ void	create_theards(t_table *table);
 // utils.c
 long	ft_atoi(const char *nptr);
 int		ft_isnbr(char *s);
-long	get_time();
+long	get_time(void);
 int		dongle_ready(t_dongle *dongle);
 
 // validator.c

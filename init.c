@@ -6,16 +6,14 @@
 /*   By: dmonseur <dmonseur@student.42belgium.be    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/01 16:20:22 by dmonseur          #+#    #+#             */
-/*   Updated: 2026/09/24 18:21:28 by dmonseur         ###   ########.fr       */
+/*   Updated: 2026/09/27 15:57:02 by dmonseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "codexion.h"
 
-int	init_dongles(t_params *params, t_table *table)
+static void	init_table(t_params *params, t_table *table)
 {
-	int	i;
-
 	table->start_time = get_time();
 	pthread_cond_init(&table->dongles_ready, NULL);
 	pthread_mutex_init(&table->dongles_mutex, NULL);
@@ -24,6 +22,13 @@ int	init_dongles(t_params *params, t_table *table)
 	table->stop = 0;
 	table->ticket = 0;
 	table->dongles = malloc(sizeof(t_dongle *) * params->nb_coders);
+}
+
+int	init_dongles(t_params *params, t_table *table)
+{
+	int	i;
+
+	init_table(params, table);
 	if (!table->dongles)
 		return (0);
 	i = 0;
@@ -61,7 +66,8 @@ int	init_coders(t_params *params, t_table *table)
 		table->coders[i]->compiles_required = table->params->compiles_required;
 		table->coders[i]->table = table;
 		if (i == 0)
-			table->coders[i]->left_dongle = table->dongles[params->nb_coders - 1];
+			table->coders[i]->left_dongle
+				= table->dongles[params->nb_coders - 1];
 		else
 			table->coders[i]->left_dongle = table->dongles[i - 1];
 		table->coders[i]->right_dongle = table->dongles[i];
@@ -69,4 +75,3 @@ int	init_coders(t_params *params, t_table *table)
 	}
 	return (1);
 }
-

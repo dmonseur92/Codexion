@@ -6,7 +6,7 @@
 /*   By: dmonseur <dmonseur@student.42belgium.be    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/24 17:39:26 by dmonseur          #+#    #+#             */
-/*   Updated: 2026/09/24 18:17:14 by dmonseur         ###   ########.fr       */
+/*   Updated: 2026/09/27 15:59:02 by dmonseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,12 +49,12 @@ int	ft_isnbr(char *s)
 	return (1);
 }
 
-long	get_time()
+long	get_time(void)
 {
 	struct timeval	tv;
 
 	gettimeofday(&tv, NULL);
-	return ((tv.tv_sec * 1000) + (tv.tv_usec /1000));
+	return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
 }
 
 int	dongle_ready(t_dongle *dongle)

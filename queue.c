@@ -6,7 +6,7 @@
 /*   By: dmonseur <dmonseur@student.42belgium.be    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/24 17:12:13 by dmonseur          #+#    #+#             */
-/*   Updated: 2026/09/24 18:13:53 by dmonseur         ###   ########.fr       */
+/*   Updated: 2026/09/27 15:58:24 by dmonseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ static int	queue_head(t_dongle *dongle, int scheduler)
 void	queue_push(t_dongle *dongle, t_coder *coder, long ticket)
 {
 	t_request	*req;
-	
 	long		deadline;
 
 	deadline = coder->last_compile + coder->table->params->burnout_time;
@@ -77,4 +76,3 @@ int	queue_my_turn(t_coder *coder)
 	return (has_priority(coder->left_dongle, coder)
 		&& has_priority(coder->right_dongle, coder));
 }
-
