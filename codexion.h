@@ -6,7 +6,7 @@
 /*   By: dmonseur <dmonseur@student.42belgium.be    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/24 17:34:06 by dmonseur          #+#    #+#             */
-/*   Updated: 2026/09/27 15:52:27 by dmonseur         ###   ########.fr       */
+/*   Updated: 2026/09/27 16:08:28 by dmonseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,7 @@ int		init_dongles(t_params *params, t_table *table);
 int		init_coders(t_params *params, t_table *table);
 
 // operations.c
+void	take_dongles(t_coder *coder);
 void	compile(t_coder *coder);
 void	debug(t_coder *coder);
 void	refactor(t_coder *coder);
