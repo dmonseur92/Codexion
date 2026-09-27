@@ -10,8 +10,8 @@ SRC = \
 	parser.c \
 	queue.c \
 	threads.c \
-	validator.c \
 	utils.c \
+	validator.c \
 
 OBJ = $(SRC:.c=.o)
 

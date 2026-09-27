@@ -6,7 +6,7 @@
 /*   By: dmonseur <dmonseur@student.42belgium.be    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/03 15:51:56 by dmonseur          #+#    #+#             */
-/*   Updated: 2026/09/27 16:25:50 by dmonseur         ###   ########.fr       */
+/*   Updated: 2026/09/27 16:54:30 by dmonseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,4 +111,6 @@ void	create_theards(t_table *table)
 		i++;
 	}
 	pthread_join(*monitor, NULL);
+	free(threads);
+	free(monitor);
 }

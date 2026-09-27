@@ -6,7 +6,7 @@
 /*   By: dmonseur <dmonseur@student.42belgium.be    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/01 16:20:22 by dmonseur          #+#    #+#             */
-/*   Updated: 2026/09/27 15:57:02 by dmonseur         ###   ########.fr       */
+/*   Updated: 2026/09/27 17:01:01 by dmonseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ int	init_dongles(t_params *params, t_table *table)
 		table->dongles[i]->available = 1;
 		table->dongles[i]->ready_at = 0;
 		table->dongles[i]->queue_size = 0;
-		pthread_mutex_init(&table->dongles[i]->dongle_mutex, NULL);
 		i++;
 	}
 	return (1);

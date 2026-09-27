@@ -6,7 +6,7 @@
 /*   By: dmonseur <dmonseur@student.42belgium.be    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/24 17:34:06 by dmonseur          #+#    #+#             */
-/*   Updated: 2026/09/27 16:08:28 by dmonseur         ###   ########.fr       */
+/*   Updated: 2026/09/27 17:00:34 by dmonseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@ typedef struct s_dongle
 	long			ready_at;
 	t_request		queue[2];
 	int				queue_size;
-	pthread_mutex_t	dongle_mutex;
 }	t_dongle;
 
 typedef struct s_coder
