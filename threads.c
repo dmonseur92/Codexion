@@ -6,7 +6,7 @@
 /*   By: dmonseur <dmonseur@student.42belgium.be    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/03 15:51:56 by dmonseur          #+#    #+#             */
-/*   Updated: 2026/09/30 15:06:11 by dmonseur         ###   ########.fr       */
+/*   Updated: 2026/09/30 15:27:07 by dmonseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,8 @@ static void	*burnout_loop(t_table *table)
 	i = 0;
 	while (i < table->params->nb_coders && !table->stop)
 	{
-		if (get_time() - table->coders[i]->last_compile
+		if (!table->coders[i]->has_finished
+			&& get_time() - table->coders[i]->last_compile
 			>= table->params->burnout_time)
 		{
 			pthread_mutex_lock(&table->print_mutex);

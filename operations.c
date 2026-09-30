@@ -6,7 +6,7 @@
 /*   By: dmonseur <dmonseur@student.42belgium.be    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/21 14:49:28 by dmonseur          #+#    #+#             */
-/*   Updated: 2026/09/27 16:10:14 by dmonseur         ###   ########.fr       */
+/*   Updated: 2026/09/30 16:24:52 by dmonseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,12 +42,12 @@ void	compile(t_coder *coder)
 
 	if (coder->table->stop)
 		return ;
+	coder->last_compile = get_time();
 	pthread_mutex_lock(&coder->table->print_mutex);
 	time = get_time() - coder->table->start_time;
 	printf(GREEN "%ld %d is compiling\n" RESET, time, coder->coder_id);
 	pthread_mutex_unlock(&coder->table->print_mutex);
 	usleep(coder->table->params->compile_time * 1000);
-	coder->last_compile = get_time();
 }
 
 void	debug(t_coder *coder)

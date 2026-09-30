@@ -6,7 +6,7 @@
 /*   By: dmonseur <dmonseur@student.42belgium.be    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/24 17:34:06 by dmonseur          #+#    #+#             */
-/*   Updated: 2026/09/27 18:15:40 by dmonseur         ###   ########.fr       */
+/*   Updated: 2026/09/30 16:24:37 by dmonseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,9 @@ long	ft_atoi(const char *nptr);
 int		ft_isnbr(char *s);
 long	get_time(void);
 int		dongle_ready(t_dongle *dongle);
+
+// utils2.c
+long	get_priority(t_request *req, int scheduler);
 
 // validator.c
 int		max_int_checker(char **argv);

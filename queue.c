@@ -6,32 +6,37 @@
 /*   By: dmonseur <dmonseur@student.42belgium.be    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/24 17:12:13 by dmonseur          #+#    #+#             */
-/*   Updated: 2026/09/27 17:09:23 by dmonseur         ###   ########.fr       */
+/*   Updated: 2026/09/30 16:34:57 by dmonseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "codexion.h"
 
-#include "codexion.h"
-
 static int	queue_head(t_dongle *dongle, int scheduler)
 {
-	t_request	*a;
-	t_request	*b;
+	int		i;
+	int		best_idx;
+	long	best_val;
+	long	curr_val;
 
-	if (dongle->queue_size < 2)
-		return (dongle->queue_size * dongle->queue[0].coder_id);
-	a = &dongle->queue[0];
-	b = &dongle->queue[1];
-	if (scheduler == EDF && a->deadline != b->deadline)
+	if (dongle->queue_size == 0)
+		return (0);
+	if (dongle->queue_size == 1)
+		return (dongle->queue[0].coder_id);
+	best_idx = 0;
+	best_val = get_priority(&dongle->queue[0], scheduler);
+	i = 1;
+	while (i < dongle->queue_size)
 	{
-		if (a->deadline < b->deadline)
-			return (a->coder_id);
-		return (b->coder_id);
+		curr_val = get_priority(&dongle->queue[i], scheduler);
+		if (curr_val < best_val)
+		{
+			best_val = curr_val;
+			best_idx = i;
+		}
+		i++;
 	}
-	if (a->ticket < b->ticket)
-		return (a->coder_id);
-	return (b->coder_id);
+	return (dongle->queue[best_idx].coder_id);
 }
 
 void	queue_push(t_dongle *dongle, t_coder *coder, long ticket)
@@ -39,7 +44,8 @@ void	queue_push(t_dongle *dongle, t_coder *coder, long ticket)
 	t_request	*req;
 	long		deadline;
 
-	deadline = coder->last_compile + coder->table->params->burnout_time;
+	deadline = coder->last_compile
+		+ coder->table->params->burnout_time;
 	req = &dongle->queue[dongle->queue_size];
 	req->coder_id = coder->coder_id;
 	req->ticket = ticket;
@@ -49,13 +55,30 @@ void	queue_push(t_dongle *dongle, t_coder *coder, long ticket)
 
 void	queue_remove(t_dongle *dongle, int coder_id)
 {
-	if (dongle->queue_size > 0 && dongle->queue[0].coder_id == coder_id)
+	int	i;
+	int	target_idx;
+
+	target_idx = -1;
+	i = 0;
+	while (i < dongle->queue_size)
 	{
-		dongle->queue[0] = dongle->queue[1];
+		if (dongle->queue[i].coder_id == coder_id)
+		{
+			target_idx = i;
+			break ;
+		}
+		i++;
+	}
+	if (target_idx != -1)
+	{
+		i = target_idx;
+		while (i < dongle->queue_size - 1)
+		{
+			dongle->queue[i] = dongle->queue[i + 1];
+			i++;
+		}
 		dongle->queue_size--;
 	}
-	else if (dongle->queue_size > 1 && dongle->queue[1].coder_id == coder_id)
-		dongle->queue_size--;
 }
 
 static int	has_priority(t_dongle *dongle, t_coder *me)
@@ -64,7 +87,7 @@ static int	has_priority(t_dongle *dongle, t_coder *me)
 	t_coder	*other;
 
 	head = queue_head(dongle, me->table->params->scheduler);
-	if (head == me->coder_id)
+	if (head == 0 || head == me->coder_id)
 		return (1);
 	other = me->table->coders[head - 1];
 	return (!dongle_ready(other->left_dongle)

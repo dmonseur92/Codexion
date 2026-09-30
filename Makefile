@@ -11,6 +11,7 @@ SRC = \
 	queue.c \
 	threads.c \
 	utils.c \
+	utils2.c \
 	validator.c \
 
 OBJ = $(SRC:.c=.o)
