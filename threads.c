@@ -6,7 +6,7 @@
 /*   By: dmonseur <dmonseur@student.42belgium.be    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/03 15:51:56 by dmonseur          #+#    #+#             */
-/*   Updated: 2026/09/27 18:16:47 by dmonseur         ###   ########.fr       */
+/*   Updated: 2026/09/30 15:06:11 by dmonseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,7 @@ static void	*operations(void *arg)
 		queue_push(coder->left_dongle, coder, coder->table->ticket);
 		queue_push(coder->right_dongle, coder, coder->table->ticket++);
 		while (!coder->table->stop && (!dongle_ready(coder->left_dongle)
-				|| !dongle_ready(coder->right_dongle)
-				|| !queue_my_turn(coder)))
+				|| !dongle_ready(coder->right_dongle) || !queue_my_turn(coder)))
 			wait_until(&coder->table->dongles_ready,
 				&coder->table->dongles_mutex);
 		queue_remove(coder->left_dongle, coder->coder_id);
