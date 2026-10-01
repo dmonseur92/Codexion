@@ -6,7 +6,7 @@
 /*   By: dmonseur <dmonseur@student.42belgium.be    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/03 15:51:56 by dmonseur          #+#    #+#             */
-/*   Updated: 2026/09/30 15:27:07 by dmonseur         ###   ########.fr       */
+/*   Updated: 2026/10/01 13:14:36 by dmonseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static void	wait_until(pthread_cond_t *cond, pthread_mutex_t *mutex)
 	struct timespec	ts;
 	long			time;
 
-	time = get_time();
+	time = get_time() + 1;
 	ts.tv_sec = time / 1000;
 	ts.tv_nsec = (time % 1000) * 1000000;
 	pthread_cond_timedwait(cond, mutex, &ts);
@@ -30,6 +30,8 @@ static void	*operations(void *arg)
 	coder = (t_coder *)arg;
 	if (coder->left_dongle == coder->right_dongle)
 		return (lone_coder(coder));
+	if (coder->coder_id % 2 == 0)
+		usleep(1000);
 	while (coder->compiles_required-- > 0)
 	{
 		pthread_mutex_lock(&coder->table->dongles_mutex);
