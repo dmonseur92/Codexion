@@ -11,9 +11,9 @@ on their left and the one on their right). Coders cycle endlessly through three 
 **compiling**, **debugging**, and **refactoring** — and must regularly return to compiling
 before running out of time, or they **burn out**.
 
-The goal of the project is to model this cycle correctly using POSIX threads and mutexes:
-each coder is a thread, each dongle is a shared resource guarded by synchronization
-primitives, and a dedicated monitor thread watches every coder for burnout in near
+The goal of the project is to model this cycle correctly using threads and mutexes:
+each coder is a thread, each dongle is a shared resource guarded by mutexes,
+and a dedicated monitor thread watches every coder for burnout in near
 real time. The simulation stops as soon as a coder burns out, or once every coder has
 completed the required number of compiles.
 
@@ -70,15 +70,26 @@ Example:
 
 ### Example output
 
+Each line is `timestamp_in_ms coder_id message`; the number in parentheses is the dongle taken.
+
 ```
-0 1 has taken a dongle
-2 1 has taken a dongle
-2 1 is compiling
-202 1 is debugging
-402 1 is refactoring
-405 2 has taken a dongle
+0 1 has taken a dongle (5)
+0 1 has taken a dongle (1)
+0 1 is compiling
+0 3 has taken a dongle (2)
+0 3 has taken a dongle (3)
+0 3 is compiling
+200 3 is debugging
+201 1 is debugging
 ...
 ```
+
+### Known limits
+
+With an odd number of coders, fewer coders can compile at the same time (at most
+`(n - 1) / 2`), so `time_to_burnout` needs more margin. For example, 9 coders with a
+200 ms compile need about 450 ms between two compiles at best, so `9 500 200 100 100`
+cannot be sustained, while `200 500 200 100 100` can.
 
 ## Resources
 
@@ -90,9 +101,8 @@ Example:
 - Coffman's conditions for deadlock — used as a checklist while designing the dongle
   acquisition logic (see below).
 
-**AI usage:**  AI assistantance was used to help understand the thread and mutex theory.
-It was also used to help draft this README.
-All source code (`.c`/`.h` files) was written by hand; the AI did not generate or rewrite implementation code.
+**AI usage:** AI assistance was used to help understand the thread and mutex theory
+and of course to help draft this README.
 
 ## Blocking cases handled
 
@@ -101,9 +111,17 @@ All source code (`.c`/`.h` files) was written by hand; the AI did not generate o
   while blocking indefinitely for the other — it releases the mutex and retries via
   `pthread_cond_timedwait` instead, which removes the "hold and wait" condition that
   classically causes deadlock in the dining philosophers problem.
-- **Starvation prevention:** each dongle keeps track of pending requests and grants
-  access according to the chosen scheduler (arrival order for `fifo`, nearest burnout
-  deadline for `edf`), with a deterministic tie-breaker so no request is left undecided.
+- **Starvation prevention:** each dongle keeps a queue of pending requests, and a coder
+  may only take its two dongles when it is at the head of the queue on both of them,
+  according to the chosen scheduler (arrival order for `fifo`, nearest burnout deadline
+  for `edf`). A coder is never overtaken by a later request, even if its neighbours are
+  not yet ready. Ties are broken by request ticket. All first requests are registered
+  before any thread starts, with odd-numbered coders ahead of even-numbered ones, so the
+  start order does not depend on thread scheduling and the table splits into two
+  alternating groups that can compile in parallel.
+- **Synchronized start:** all threads are created first and released together. The
+  simulation clock and every coder's burnout timer start at that moment, so thread
+  creation time never counts against a coder.
 - **Cooldown handling:** a released dongle records a `ready_at` timestamp
   (`release time + dongle_cooldown`) and is not considered available again until that
   time has passed, enforced before any coder is allowed to pick it back up.

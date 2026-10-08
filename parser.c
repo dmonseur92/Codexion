@@ -56,6 +56,11 @@ static int	args_validator(int argc, char **argv)
 		fprintf(stderr, "there must be coders OBVIOUSLY\n");
 		return (0);
 	}
+	if (ft_atoi(argv[6]) == 0)
+	{
+		fprintf(stderr, "compiles must be at least 1\n");
+		return (0);
+	}
 	return (1);
 }
 
