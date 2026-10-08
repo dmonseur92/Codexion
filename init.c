@@ -20,7 +20,7 @@ static void	init_table(t_params *params, t_table *table)
 	pthread_mutex_init(&table->print_mutex, NULL);
 	table->params = params;
 	table->stop = 0;
-	table->ticket = 0;
+	table->ticket = 2 * params->nb_coders + 1;
 	table->dongles = malloc(sizeof(t_dongle *) * params->nb_coders);
 }
 

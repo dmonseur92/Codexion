@@ -6,7 +6,7 @@
 /*   By: dmonseur <dmonseur@student.42belgium.be    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/03 15:51:56 by dmonseur          #+#    #+#             */
-/*   Updated: 2026/10/01 13:14:36 by dmonseur         ###   ########.fr       */
+/*   Updated: 2026/09/30 15:27:07 by dmonseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,17 +26,22 @@ static void	wait_until(pthread_cond_t *cond, pthread_mutex_t *mutex)
 static void	*operations(void *arg)
 {
 	t_coder	*coder;
+	long	ticket;
 
 	coder = (t_coder *)arg;
+	pthread_mutex_lock(&coder->table->dongles_mutex);
+	pthread_mutex_unlock(&coder->table->dongles_mutex);
 	if (coder->left_dongle == coder->right_dongle)
 		return (lone_coder(coder));
-	if (coder->coder_id % 2 == 0)
-		usleep(1000);
 	while (coder->compiles_required-- > 0)
 	{
 		pthread_mutex_lock(&coder->table->dongles_mutex);
-		queue_push(coder->left_dongle, coder, coder->table->ticket);
-		queue_push(coder->right_dongle, coder, coder->table->ticket++);
+		if (coder->compiles_required < coder->table->params->compiles_required - 1)
+		{
+			ticket = coder->table->ticket++;
+			queue_push(coder->left_dongle, coder, ticket);
+			queue_push(coder->right_dongle, coder, ticket);
+		}
 		while (!coder->table->stop && (!dongle_ready(coder->left_dongle)
 				|| !dongle_ready(coder->right_dongle) || !queue_my_turn(coder)))
 			wait_until(&coder->table->dongles_ready,
@@ -100,13 +105,16 @@ void	create_theards(t_table *table)
 
 	monitor = malloc(sizeof(pthread_t));
 	threads = malloc(sizeof(pthread_t) * table->params->nb_coders);
-	pthread_create(monitor, NULL, check_burnout, table);
+	pthread_mutex_lock(&table->dongles_mutex);
 	i = 0;
-	while (i < table->params->nb_coders && !table->stop)
+	while (i < table->params->nb_coders)
 	{
 		pthread_create(&threads[i], NULL, operations, table->coders[i]);
 		i++;
 	}
+	set_start(table);
+	pthread_create(monitor, NULL, check_burnout, table);
+	pthread_mutex_unlock(&table->dongles_mutex);
 	i = 0;
 	while (i < table->params->nb_coders)
 	{

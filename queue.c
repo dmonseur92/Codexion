@@ -16,24 +16,17 @@ static int	queue_head(t_dongle *dongle, int scheduler)
 {
 	int		i;
 	int		best_idx;
-	long	best_val;
-	long	curr_val;
 
 	if (dongle->queue_size == 0)
 		return (0);
 	if (dongle->queue_size == 1)
 		return (dongle->queue[0].coder_id);
 	best_idx = 0;
-	best_val = get_priority(&dongle->queue[0], scheduler);
 	i = 1;
 	while (i < dongle->queue_size)
 	{
-		curr_val = get_priority(&dongle->queue[i], scheduler);
-		if (curr_val < best_val)
-		{
-			best_val = curr_val;
+		if (req_before(&dongle->queue[i], &dongle->queue[best_idx], scheduler))
 			best_idx = i;
-		}
 		i++;
 	}
 	return (dongle->queue[best_idx].coder_id);
@@ -84,14 +77,9 @@ void	queue_remove(t_dongle *dongle, int coder_id)
 static int	has_priority(t_dongle *dongle, t_coder *me)
 {
 	int		head;
-	t_coder	*other;
 
 	head = queue_head(dongle, me->table->params->scheduler);
-	if (head == 0 || head == me->coder_id)
-		return (1);
-	other = me->table->coders[head - 1];
-	return (!dongle_ready(other->left_dongle)
-		|| !dongle_ready(other->right_dongle));
+	return (head == 0 || head == me->coder_id);
 }
 
 int	queue_my_turn(t_coder *coder)

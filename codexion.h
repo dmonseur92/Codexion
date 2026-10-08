@@ -112,6 +112,9 @@ int		dongle_ready(t_dongle *dongle);
 
 // utils2.c
 long	get_priority(t_request *req, int scheduler);
+long	first_ticket(t_coder *coder);
+int		req_before(t_request *a, t_request *b, int scheduler);
+void	set_start(t_table *table);
 
 // validator.c
 int		max_int_checker(char **argv);
