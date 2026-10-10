@@ -6,7 +6,7 @@
 /*   By: dmonseur <dmonseur@student.42belgium.be    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/25 16:06:14 by dmonseur          #+#    #+#             */
-/*   Updated: 2026/09/27 18:26:40 by dmonseur         ###   ########.fr       */
+/*   Updated: 2026/10/10 16:22:46 by dmonseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,11 @@ static int	args_validator(int argc, char **argv)
 		fprintf(stderr, "Numbers can 't exceed int range (max: 2147483647)\n");
 		return (0);
 	}
+	return (1);
+}
+
+static int	args_nb_validator(char **argv)
+{
 	if (ft_atoi(argv[1]) == 0)
 	{
 		fprintf(stderr, "there must be coders OBVIOUSLY\n");
@@ -68,7 +73,7 @@ int	parser(int argc, char **argv, t_params *params)
 {
 	char	*schedule;
 
-	if (args_validator(argc, argv))
+	if (args_validator(argc, argv) && args_nb_validator(argv))
 	{
 		schedule = schedule_parser(argv[8]);
 		if ((strcmp(schedule, "invalid") == 0))

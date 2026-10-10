@@ -113,6 +113,7 @@ int		dongle_ready(t_dongle *dongle);
 // utils2.c
 long	get_priority(t_request *req, int scheduler);
 long	first_ticket(t_coder *coder);
+void	print_status(t_coder *coder, char *color, char *msg, int dongle);
 int		req_before(t_request *a, t_request *b, int scheduler);
 void	set_start(t_table *table);
 
@@ -120,4 +121,6 @@ void	set_start(t_table *table);
 int		max_int_checker(char **argv);
 int		nbr_validator(char **arg);
 void	stop_program(t_coder *coder);
+void	declare_burnout(t_table *table, int coder_id);
+int		wait_for_dongles(t_coder *coder);
 #endif

@@ -6,7 +6,7 @@
 /*   By: dmonseur <dmonseur@student.42belgium.be    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/30 16:23:10 by dmonseur          #+#    #+#             */
-/*   Updated: 2026/09/30 16:23:43 by dmonseur         ###   ########.fr       */
+/*   Updated: 2026/10/10 16:25:10 by dmonseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,4 +53,23 @@ int	req_before(t_request *a, t_request *b, int scheduler)
 	if (pa != pb)
 		return (pa < pb);
 	return (a->ticket < b->ticket);
+}
+
+void	print_status(t_coder *coder, char *color, char *msg, int dongle)
+{
+	t_table	*table;
+
+	table = coder->table;
+	pthread_mutex_lock(&table->print_mutex);
+	if (!table->stop)
+	{
+		printf("%s%ld %d %s", color, get_time() - table->start_time,
+			coder->coder_id, msg);
+		if (dongle)
+			printf(" (%d)", dongle);
+		if (color[0])
+			printf(RESET);
+		printf("\n");
+	}
+	pthread_mutex_unlock(&table->print_mutex);
 }

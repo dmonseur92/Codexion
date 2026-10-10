@@ -13,6 +13,7 @@ SRC = \
 	utils.c \
 	utils2.c \
 	validator.c \
+	wait.c \
 
 OBJ = $(SRC:.c=.o)
 
